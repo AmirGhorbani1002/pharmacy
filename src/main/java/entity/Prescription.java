@@ -6,25 +6,27 @@ import util.list.drug.DrugListImpl;
 
 public class Prescription {
 
-    private final long id;
+    private long id;
     private final long patientId;
     private final MyList<SimpleDrug> drugs = new DrugListImpl();
     private PrescriptionStatus status;
 
-    public Prescription(long id, long patientId) {
-        this.id = id;
+    public Prescription(long patientId) {
         this.patientId = patientId;
         status = PrescriptionStatus.PENDING;
     }
 
-    public Prescription(long id, long patientId, PrescriptionStatus status) {
-        this.id = id;
+    public Prescription(long patientId, PrescriptionStatus status) {
         this.patientId = patientId;
         this.status = status;
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getPatientId() {

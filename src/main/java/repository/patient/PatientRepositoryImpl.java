@@ -42,6 +42,7 @@ public class PatientRepositoryImpl implements PatientRepository {
             Patient patient = new Patient(resultSet.getString("firstname"),
                     resultSet.getString("lastname"),
                     resultSet.getString("national_code"));
+            patient.setId(resultSet.getLong("id"));
             resultSet.close();
             return patient;
         } catch (SQLException e) {

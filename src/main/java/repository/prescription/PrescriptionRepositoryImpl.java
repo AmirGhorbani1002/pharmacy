@@ -56,10 +56,10 @@ public class PrescriptionRepositoryImpl implements BaseRepository<Prescription> 
             preparedStatement.close();
             if (!resultSet.next())
                 return null;
-            Prescription prescription = new Prescription(resultSet.getLong("id"),
-                    resultSet.getLong("patient_id"),
+            Prescription prescription = new Prescription(resultSet.getLong("patient_id"),
                     PrescriptionStatus.valueOf(resultSet.getString("status")));
             resultSet.close();
+            prescription.setId(resultSet.getLong("id"));
             return prescription;
         } catch (SQLException e) {
             throw new RuntimeException(e);

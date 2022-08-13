@@ -2,18 +2,12 @@ package entity;
 
 public class SimpleDrug {
 
-    private final long id;
     private final String name;
     private int count;
 
-    public SimpleDrug(long id, String name, int count) {
-        this.id = id;
+    public SimpleDrug(String name, int count) {
         this.name = name;
         this.count = count;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getName() {
