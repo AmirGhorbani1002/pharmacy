@@ -17,6 +17,12 @@ public class Prescription {
         status = PrescriptionStatus.PENDING;
     }
 
+    public Prescription(long id, long patientId, PrescriptionStatus status) {
+        this.id = id;
+        this.patientId = patientId;
+        this.status = status;
+    }
+
     public long getId() {
         return id;
     }
