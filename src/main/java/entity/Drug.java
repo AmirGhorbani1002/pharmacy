@@ -1,11 +1,14 @@
 package entity;
 
+import java.util.List;
+
 public class Drug {
 
     private final long id;
     private final String name;
     private float price;
     private int count;
+
 
     public Drug(long id, String name, float price, int count) {
         this.id = id;
