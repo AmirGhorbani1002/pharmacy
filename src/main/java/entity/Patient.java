@@ -6,12 +6,16 @@ import util.list.drug.DrugListImpl;
 
 public class Patient extends Person {
 
-    private final MyList<SimpleDrug> drugs = new DrugListImpl();
+    private Prescription prescription;
     public Patient(String firstname, String lastname, String nationalCode) {
         super(firstname, lastname, nationalCode);
     }
 
-    public MyList<SimpleDrug> getDrugs() {
-        return drugs;
+    public Prescription getPrescription() {
+        return prescription;
+    }
+
+    public void setPrescription(Prescription prescription) {
+        this.prescription = prescription;
     }
 }

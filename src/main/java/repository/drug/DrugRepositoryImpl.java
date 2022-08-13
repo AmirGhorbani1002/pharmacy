@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DrugBaseRepositoryImpl implements BaseRepository<Drug> {
+public class DrugRepositoryImpl implements BaseRepository<Drug> {
     @Override
     public void save(Drug drug) {
         String query = """
