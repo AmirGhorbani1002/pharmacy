@@ -35,3 +35,9 @@ create table if not exists receipt
     prescription_id int8 references prescription (id),
     price           float                 not null
 );
+
+create table admin
+(
+    id       serial primary key not null,
+    password varchar(255)       not null
+)
