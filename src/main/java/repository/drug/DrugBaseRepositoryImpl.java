@@ -2,14 +2,13 @@ package repository.drug;
 
 import config.DBConfig;
 import entity.Drug;
-import entity.Prescription;
-import repository.Repository;
+import repository.BaseRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DrugRepositoryImpl implements Repository<Drug> {
+public class DrugBaseRepositoryImpl implements BaseRepository<Drug> {
     @Override
     public void save(Drug drug) {
         String query = """

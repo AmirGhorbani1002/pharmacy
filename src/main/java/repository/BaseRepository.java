@@ -1,6 +1,6 @@
 package repository;
 
-public interface Repository<T> {
+public interface BaseRepository<T> {
 
     void save(T t);
     void remove(long id);
