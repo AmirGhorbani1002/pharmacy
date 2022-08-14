@@ -53,7 +53,7 @@ public class PatientRepositoryImpl implements PatientRepository {
 
     public Prescription loadPrescription(long id) {
         String query = """
-                    select * from patient pa
+                    select pr.id,status from patient pa
                     inner join prescription pr on pa.id = pr.patient_id
                     where pr.status = ? and pa.id = ?
                 """;
@@ -64,7 +64,7 @@ public class PatientRepositoryImpl implements PatientRepository {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next())
                 return null;
-            return new Prescription(resultSet.getLong("pr.id"),
+            return new Prescription(resultSet.getLong("id"),
                     PrescriptionStatus.valueOf(resultSet.getString("status")));
         } catch (SQLException e) {
             throw new RuntimeException(e);

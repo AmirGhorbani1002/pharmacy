@@ -43,4 +43,5 @@ public class Prescription {
     public MyList<SimpleDrug> getDrugs() {
         return drugs;
     }
+
 }

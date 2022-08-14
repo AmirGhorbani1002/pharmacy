@@ -25,6 +25,7 @@ public class PatientServiceImpl {
 
     public void addDrug(Patient patient, SimpleDrug drug){
         patient.getPrescription().getDrugs().add(drug);
+        prescriptionRepository.saveDrug(patient.getId(),drug);
     }
 
     public void prescriptionStatus(Patient patient){
@@ -33,6 +34,10 @@ public class PatientServiceImpl {
         } else{
             addPrescription(patient, PrescriptionStatus.CANCEL);
         }
+    }
+
+    public void addPrescription(Patient patient){
+        prescriptionRepository.save(patient.getPrescription());
     }
 
     private void addPrescription(Patient patient, PrescriptionStatus confirm) {
