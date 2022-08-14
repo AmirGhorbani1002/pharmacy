@@ -2,6 +2,7 @@ package repository.prescription;
 
 import config.DBConfig;
 import entity.Prescription;
+import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
 import repository.BaseRepository;
 
@@ -21,7 +22,6 @@ public class PrescriptionRepositoryImpl implements BaseRepository<Prescription> 
             preparedStatement.setLong(1, prescription.getPatientId());
             preparedStatement.setString(2, prescription.getStatus().name());
             preparedStatement.executeUpdate();
-            preparedStatement.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -37,7 +37,6 @@ public class PrescriptionRepositoryImpl implements BaseRepository<Prescription> 
             PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
-            preparedStatement.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -53,12 +52,10 @@ public class PrescriptionRepositoryImpl implements BaseRepository<Prescription> 
             PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            preparedStatement.close();
             if (!resultSet.next())
                 return null;
             Prescription prescription = new Prescription(resultSet.getLong("patient_id"),
                     PrescriptionStatus.valueOf(resultSet.getString("status")));
-            resultSet.close();
             prescription.setId(resultSet.getLong("id"));
             return prescription;
         } catch (SQLException e) {
@@ -78,9 +75,25 @@ public class PrescriptionRepositoryImpl implements BaseRepository<Prescription> 
             preparedStatement.setString(1, prescription.getStatus().name());
             preparedStatement.setLong(2, prescription.getId());
             preparedStatement.executeUpdate();
-            preparedStatement.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public void saveDrug(long id, SimpleDrug drug){
+        String query = """
+                    insert into prescription_drugs(name, count, prescription_id)
+                    values(?,?,?)
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, drug.getName());
+            preparedStatement.setInt(2, drug.getCount());
+            preparedStatement.setLong(3, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

@@ -17,13 +17,7 @@ public class AdminRepositoryImpl implements AdminRepository{
             PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
             preparedStatement.setString(1,password);
             ResultSet resultSet = preparedStatement.executeQuery();
-            preparedStatement.close();
-            if(!resultSet.next()){
-                resultSet.close();
-                return false;
-            }
-            resultSet.close();
-            return true;
+            return resultSet.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

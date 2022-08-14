@@ -24,7 +24,6 @@ public class PatientRepositoryImpl implements PatientRepository {
             preparedStatement.setString(2, patient.getLastname());
             preparedStatement.setString(3, patient.getNationalCode());
             preparedStatement.executeUpdate();
-            preparedStatement.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -40,14 +39,12 @@ public class PatientRepositoryImpl implements PatientRepository {
             PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
             preparedStatement.setString(1, nationalCode);
             ResultSet resultSet = preparedStatement.executeQuery();
-            preparedStatement.close();
             if (!resultSet.next())
                 return null;
             Patient patient = new Patient(resultSet.getString("firstname"),
                     resultSet.getString("lastname"),
                     resultSet.getString("national_code"));
             patient.setId(resultSet.getLong("id"));
-            resultSet.close();
             return patient;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -58,19 +55,17 @@ public class PatientRepositoryImpl implements PatientRepository {
         String query = """
                     select * from patient pa
                     inner join prescription pr on pa.id = pr.patient_id
-                    where pr.status = ?
+                    where pr.status = ? and pa.id = ?
                 """;
         try {
             PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
             preparedStatement.setString(1, PrescriptionStatus.PENDING.name());
+            preparedStatement.setLong(2, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            preparedStatement.close();
             if (!resultSet.next())
                 return null;
-            Prescription prescription = new Prescription(resultSet.getLong("pr.id"),
+            return new Prescription(resultSet.getLong("pr.id"),
                     PrescriptionStatus.valueOf(resultSet.getString("status")));
-            resultSet.close();
-            return prescription;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -86,7 +81,6 @@ public class PatientRepositoryImpl implements PatientRepository {
             PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            preparedStatement.close();
             while(resultSet.next()){
                 SimpleDrug drug = new SimpleDrug(resultSet.getString("name"),resultSet.getInt("count"));
                 drugs.add(drug);

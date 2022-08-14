@@ -23,11 +23,11 @@ public class MyList<T> {
         return items;
     }
 
-    public void setDrugs(T[] items) {
+    public void setItems(T[] items) {
         this.items = items;
     }
 
-    public int getIndex() {
+    public int size() {
         return index;
     }
 

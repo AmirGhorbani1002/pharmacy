@@ -1,6 +1,7 @@
 package service.patient;
 
 import entity.Patient;
+import entity.Prescription;
 import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
 import repository.patient.PatientRepositoryImpl;
@@ -16,6 +17,10 @@ public class PatientServiceImpl {
             patientRepository.save(patient);
         }
         return patientRepository.load(patient.getNationalCode());
+    }
+
+    public Prescription loadPrescription(Patient patient){
+        return patientRepository.loadPrescription(patient.getId());
     }
 
     public void addDrug(Patient patient, SimpleDrug drug){
