@@ -83,4 +83,25 @@ public class DrugRepositoryImpl implements BaseRepository<Drug> {
             throw new RuntimeException(e);
         }
     }
+
+    public Drug load(String name) {
+        String query = """
+                    select * from drugs
+                    where name = ?
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement.close();
+            if (!resultSet.next())
+                return null;
+            Drug drug = new Drug(resultSet.getLong("id"), resultSet.getString("name"),
+                    resultSet.getFloat("price"), resultSet.getInt("count"));
+            resultSet.close();
+            return drug;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

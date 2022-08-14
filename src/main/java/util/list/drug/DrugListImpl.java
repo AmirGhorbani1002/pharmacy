@@ -26,7 +26,8 @@ public class DrugListImpl implements MyList<SimpleDrug> {
         if (index - id >= 0) System.arraycopy(drugs, id + 1, drugs, id, index - id);
     }
 
-    public SimpleDrug[] getDrugs() {
+    @Override
+    public SimpleDrug[] getList() {
         return drugs;
     }
 

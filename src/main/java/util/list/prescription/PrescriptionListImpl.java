@@ -24,4 +24,17 @@ public class PrescriptionListImpl implements MyList<Prescription> {
         prescriptions[id] = null;
         if (index - id >= 0) System.arraycopy(prescriptions, id + 1, prescriptions, id, index - id);
     }
+
+    @Override
+    public Prescription[] getList() {
+        return prescriptions;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 }
