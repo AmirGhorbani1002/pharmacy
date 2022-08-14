@@ -2,13 +2,12 @@ package entity;
 
 import entity.enums.PrescriptionStatus;
 import util.list.MyList;
-import util.list.drug.DrugListImpl;
 
 public class Prescription {
 
     private long id;
     private final long patientId;
-    private final MyList<SimpleDrug> drugs = new DrugListImpl();
+    private final MyList<SimpleDrug> drugs = new MyList<>();
     private PrescriptionStatus status;
 
     public Prescription(long patientId) {

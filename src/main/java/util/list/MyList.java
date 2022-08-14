@@ -1,10 +1,34 @@
 package util.list;
 
-public interface MyList<T> {
+import java.util.Arrays;
 
-    void add(T t);
-    void remove(int id);
+public class MyList<T> {
 
-    T[] getList();
+    private T[] items = (T[]) new Object[1000];
+    private int index;
+    public void add(T t) {
+        if (index > items.length - 1) {
+            items = Arrays.copyOf(items, index * 2);
+        }
+        items[index] = t;
+        index++;
+    }
+
+    public void remove(int id) {
+        items[id] = null;
+        if (index - id >= 0) System.arraycopy(items, id + 1, items, id, index - id);
+    }
+
+    public T[] getList() {
+        return items;
+    }
+
+    public void setDrugs(T[] items) {
+        this.items = items;
+    }
+
+    public int getIndex() {
+        return index;
+    }
 
 }

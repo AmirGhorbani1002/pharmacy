@@ -1,21 +1,15 @@
 package service.patient;
 
 import entity.Patient;
-import entity.Prescription;
 import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
-import repository.BaseRepository;
-import repository.patient.PatientRepository;
+import repository.patient.PatientRepositoryImpl;
+import repository.prescription.PrescriptionRepositoryImpl;
 
 public class PatientServiceImpl {
 
-    private final PatientRepository patientRepository;
-    private final BaseRepository<Prescription> prescriptionRepository;
-
-    public PatientServiceImpl(PatientRepository patientRepository, BaseRepository<Prescription> prescriptionRepository) {
-        this.patientRepository = patientRepository;
-        this.prescriptionRepository = prescriptionRepository;
-    }
+    private final PatientRepositoryImpl patientRepository = new PatientRepositoryImpl();
+    private final PrescriptionRepositoryImpl prescriptionRepository = new PrescriptionRepositoryImpl();
 
     public Patient load(Patient patient){
         if(patientRepository.load(patient.getNationalCode()) == null){
