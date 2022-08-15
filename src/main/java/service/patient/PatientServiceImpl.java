@@ -26,7 +26,7 @@ public class PatientServiceImpl {
 
     public void addDrug(Patient patient, SimpleDrug drug){
         patient.getPrescription().getDrugs().add(drug);
-        prescriptionRepository.saveDrug(patient.getId(),drug);
+        prescriptionRepository.saveDrug(patient.getPrescription().getId(),drug);
     }
 
     public void prescriptionStatus(Patient patient){
@@ -43,6 +43,10 @@ public class PatientServiceImpl {
 
     public Receipt loadReceipt(long id){
         return patientRepository.loadReceipt(id);
+    }
+
+    public SimpleDrug[] loadPrescriptionsDrugs(long id){
+       return patientRepository.loadPrescriptionsDrugs(id);
     }
 
     private void addPrescription(Patient patient, PrescriptionStatus confirm) {

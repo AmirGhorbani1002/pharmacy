@@ -25,11 +25,7 @@ public class AdminMenu {
                     System.in.read();
                 } catch (Exception e) {
                 }
-            } else if (status == 0) {
-                System.out.print("How many of these drug do you give to the patient? ");
-                int number = scanner.nextInt();
-                adminService.approvalOfTheDrug(id, i, number);
-            } else if (status == 1) {
+            } else {
                 System.out.print("How many of these drug do you give to the patient? ");
                 int number = scanner.nextInt();
                 adminService.approvalOfTheDrug(id, i, number);

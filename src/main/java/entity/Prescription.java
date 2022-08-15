@@ -7,7 +7,7 @@ public class Prescription {
 
     private long id;
     private final long patientId;
-    private final MyList<SimpleDrug> drugs = new MyList<>();
+    private MyList<SimpleDrug> drugs = new MyList<>();
     private PrescriptionStatus status;
 
     public Prescription(long patientId) {
@@ -16,6 +16,12 @@ public class Prescription {
     }
 
     public Prescription(long patientId, PrescriptionStatus status) {
+        this.patientId = patientId;
+        this.status = status;
+    }
+
+    public Prescription(long id, long patientId, PrescriptionStatus status) {
+        this.id = id;
         this.patientId = patientId;
         this.status = status;
     }
@@ -42,6 +48,10 @@ public class Prescription {
 
     public MyList<SimpleDrug> getDrugs() {
         return drugs;
+    }
+
+    public void setDrugs(MyList<SimpleDrug> drugs) {
+        this.drugs = drugs;
     }
 
     @Override

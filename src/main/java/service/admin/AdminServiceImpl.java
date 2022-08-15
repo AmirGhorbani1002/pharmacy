@@ -58,7 +58,10 @@ public class AdminServiceImpl {
             receipt.setReceiptStatus(ReceiptStatus.UNPAID);
             receiptService.save(receipt);
         }
-        receiptService.saveDrug(id, drugs.getItem(index), number);
+        Drug drug = drugs.getItem(index);
+        drug.setCount(drug.getCount() - number);
+        drugRepository.update(drug);
+        receiptService.saveDrug(receipt.getId(), drugs.getItem(index), number);
     }
 
     public int numberOfDrugs() {

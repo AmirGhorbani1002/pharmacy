@@ -55,7 +55,7 @@ public class AdminRepositoryImpl implements AdminRepository{
                 """;
         try {
             PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
-            preparedStatement.setLong(1,id);
+            preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 SimpleDrug drug = new SimpleDrug(resultSet.getString("name"),resultSet.getInt("count"));
@@ -66,5 +66,4 @@ public class AdminRepositoryImpl implements AdminRepository{
             throw new RuntimeException(e);
         }
     }
-
 }

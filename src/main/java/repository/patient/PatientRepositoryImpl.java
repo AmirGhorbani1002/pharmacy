@@ -1,11 +1,9 @@
 package repository.patient;
 
 import config.DBConfig;
-import entity.Drug;
-import entity.Patient;
-import entity.Prescription;
-import entity.Receipt;
+import entity.*;
 import entity.enums.PrescriptionStatus;
+import util.list.MyList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,7 +51,7 @@ public class PatientRepositoryImpl implements PatientRepository {
 
     public Prescription loadPrescription(long id) {
         String query = """
-                    select pr.id,status from patient pa
+                    select pa.id,pr.id,status from patient pa
                     inner join prescription pr on pa.id = pr.patient_id
                     where pa.id = ?
                 """;
@@ -63,8 +61,29 @@ public class PatientRepositoryImpl implements PatientRepository {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next())
                 return null;
-            return new Prescription(resultSet.getLong("id"),
+            return new Prescription(resultSet.getLong(2),resultSet.getLong(1),
                     PrescriptionStatus.valueOf(resultSet.getString("status")));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public SimpleDrug[] loadPrescriptionsDrugs(long id) {
+        SimpleDrug[] drugs = new SimpleDrug[1000];
+        int index = 0;
+        String query = """
+                    select * from prescription_drugs pd
+                    where prescription_id = ?
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                SimpleDrug drug = new SimpleDrug(resultSet.getString("name"),resultSet.getInt("count"));
+                drugs[index++] = drug;
+            }
+            return drugs;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
