@@ -11,6 +11,7 @@ public class MainMenu {
     private final Scanner scanner = new Scanner(System.in);
     private final PatientServiceImpl patientService = new PatientServiceImpl();
     private final PatientMenu patientMenu = new PatientMenu();
+    private final AdminMenu adminMenu = new AdminMenu();
 
     public void showMenu() {
         while (true) {
@@ -26,6 +27,8 @@ public class MainMenu {
                 Patient patient = new Patient(firstname, lastname, nationalCode);
                 patient = patientService.load(patient);
                 patientMenu.showMenu(patient);
+            } else if(Objects.equals(userType, "admin")){
+                adminMenu.showMenu();
             }
         }
     }

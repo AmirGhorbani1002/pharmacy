@@ -44,4 +44,12 @@ public class Prescription {
         return drugs;
     }
 
+    @Override
+    public String toString() {
+        return "Prescription{" +
+                "id=" + id +
+                ", patientId=" + patientId +
+                ", status=" + status +
+                '}';
+    }
 }
