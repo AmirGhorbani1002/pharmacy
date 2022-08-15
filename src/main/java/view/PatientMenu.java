@@ -38,7 +38,7 @@ public class PatientMenu {
         } else if(prescription.getStatus() == PrescriptionStatus.PENDING){
             System.out.println("Please wait. Our admin has not checked your prescription yet");
         } else if(prescription.getStatus() == PrescriptionStatus.ACCEPT){
-
+            System.out.println("done");
         }
     }
 

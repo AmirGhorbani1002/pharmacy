@@ -55,12 +55,11 @@ public class PatientRepositoryImpl implements PatientRepository {
         String query = """
                     select pr.id,status from patient pa
                     inner join prescription pr on pa.id = pr.patient_id
-                    where pr.status = ? and pa.id = ?
+                    where pa.id = ?
                 """;
         try {
             PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
-            preparedStatement.setString(1, PrescriptionStatus.PENDING.name());
-            preparedStatement.setLong(2, id);
+            preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next())
                 return null;

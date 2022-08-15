@@ -62,7 +62,6 @@ public class AdminServiceImpl {
     }
 
     public int numberOfDrugs() {
-        System.out.println(simpleDrugs.size());
         return simpleDrugs.size();
     }
 
