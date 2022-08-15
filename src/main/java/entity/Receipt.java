@@ -1,6 +1,7 @@
 package entity;
 
 import entity.Drug;
+import entity.enums.ReceiptStatus;
 import util.list.MyList;
 
 public class Receipt {
@@ -8,6 +9,8 @@ public class Receipt {
     private final MyList<Drug> drugs = new MyList<Drug>();
     private long prescriptionId;
     private float price;
+
+    private ReceiptStatus receiptStatus;
 
     public Receipt(long id, long prescriptionId, float price) {
         this.id = id;
@@ -37,6 +40,14 @@ public class Receipt {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public ReceiptStatus getReceiptStatus() {
+        return receiptStatus;
+    }
+
+    public void setReceiptStatus(ReceiptStatus receiptStatus) {
+        this.receiptStatus = receiptStatus;
     }
 
     public MyList<Drug> getDrugs() {
