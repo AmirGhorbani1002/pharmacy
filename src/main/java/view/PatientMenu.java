@@ -2,6 +2,7 @@ package view;
 
 import entity.Patient;
 import entity.Prescription;
+import entity.Receipt;
 import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
 import repository.patient.PatientRepositoryImpl;
@@ -38,7 +39,8 @@ public class PatientMenu {
         } else if(prescription.getStatus() == PrescriptionStatus.PENDING){
             System.out.println("Please wait. Our admin has not checked your prescription yet");
         } else if(prescription.getStatus() == PrescriptionStatus.ACCEPT){
-            System.out.println("done");
+            Receipt receipt = patientService.loadReceipt(patient.getId());
+
         }
     }
 

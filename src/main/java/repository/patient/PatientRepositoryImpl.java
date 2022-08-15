@@ -1,11 +1,11 @@
 package repository.patient;
 
 import config.DBConfig;
+import entity.Drug;
 import entity.Patient;
 import entity.Prescription;
-import entity.SimpleDrug;
+import entity.Receipt;
 import entity.enums.PrescriptionStatus;
-import util.list.MyList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,21 +70,26 @@ public class PatientRepositoryImpl implements PatientRepository {
         }
     }
 
-    public MyList<SimpleDrug> loadPrescriptionsDrugs(long id) {
-        MyList<SimpleDrug> drugs = new MyList<>();
+    public Receipt loadReceipt(long id) {
+        Receipt receipt = null;
         String query = """
-                    select * from prescription_drugs pd
-                    where prescription_id = ?
+                select * from receipt_drugs rd
+                inner join receipt r on r.id = rd.receipt_id
+                inner join prescription p on p.id = r.prescription_id
+                where p.patient_id = ? and r.status = 'UNPAID'
                 """;
         try {
             PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                SimpleDrug drug = new SimpleDrug(resultSet.getString("name"),resultSet.getInt("count"));
-                drugs.add(drug);
+            while (resultSet.next()) {
+                if(receipt == null)
+                    receipt = new Receipt(resultSet.getLong(6),
+                        resultSet.getLong(7), resultSet.getFloat(8));
+                receipt.getDrugs().add(new Drug(-1, resultSet.getString("name"),
+                        resultSet.getFloat(4), resultSet.getInt(3)));
             }
-            return drugs;
+            return receipt;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

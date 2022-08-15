@@ -2,6 +2,7 @@ package service.patient;
 
 import entity.Patient;
 import entity.Prescription;
+import entity.Receipt;
 import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
 import repository.patient.PatientRepositoryImpl;
@@ -38,6 +39,10 @@ public class PatientServiceImpl {
 
     public void addPrescription(Patient patient){
         prescriptionRepository.save(patient.getPrescription());
+    }
+
+    public Receipt loadReceipt(long id){
+        return patientRepository.loadReceipt(id);
     }
 
     private void addPrescription(Patient patient, PrescriptionStatus confirm) {
