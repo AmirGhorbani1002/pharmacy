@@ -80,6 +80,22 @@ public class PrescriptionRepositoryImpl implements BaseRepository<Prescription> 
         }
     }
 
+    public void update(long id, PrescriptionStatus status) {
+        String query = """
+                    update prescription
+                    set status = ?
+                    where id = ?
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, status.name());
+            preparedStatement.setLong(2, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void saveDrug(long id, SimpleDrug drug){
         String query = """
                     insert into prescription_drugs(name, count, prescription_id)

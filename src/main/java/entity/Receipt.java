@@ -1,6 +1,5 @@
 package entity;
 
-import entity.Drug;
 import entity.enums.ReceiptStatus;
 import util.list.MyList;
 

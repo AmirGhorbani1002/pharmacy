@@ -15,7 +15,8 @@ public class AdminMenu {
         adminService.loadAllPrescriptions(new Admin("a", "a", "a"));
         System.out.println("Enter one of the Id's to check");
         int id = scanner.nextInt();
-        for (int i = 0; i < adminService.numberOfDrugs(id); i++) {
+        adminService.loadPrescription(id);
+        for (int i = 0; i < adminService.numberOfDrugs(); i++) {
             int status = adminService.loadPrescriptionsDrugs(id, i);
             if (status == -1) {
                 System.out.println("We dont have this drug in our stock");
@@ -27,13 +28,14 @@ public class AdminMenu {
             } else if (status == 0) {
                 System.out.print("How many of these drug do you give to the patient? ");
                 int number = scanner.nextInt();
-                adminService.approvalOfTheDrug(id, 0, number);
+                adminService.approvalOfTheDrug(id, i, number);
             } else if (status == 1) {
                 System.out.print("How many of these drug do you give to the patient? ");
                 int number = scanner.nextInt();
-                adminService.approvalOfTheDrug(id, 0, number);
+                adminService.approvalOfTheDrug(id, i, number);
             }
         }
+        adminService.confirmPrescription(id);
     }
 
 }
