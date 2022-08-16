@@ -90,4 +90,20 @@ public class DrugRepositoryImpl{
             throw new RuntimeException(e);
         }
     }
+
+    public void increaseNumberOfDrug(int count, String name){
+        String query = """
+                    update drugs
+                    set count = count + ?
+                    where name = ?
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setInt(1, count);
+            preparedStatement.setString(2, name);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

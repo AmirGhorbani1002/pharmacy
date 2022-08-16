@@ -20,4 +20,16 @@ public class ReceiptServiceImpl {
         receiptRepository.saveDrug(id, drug, number);
     }
 
+    public Receipt loadPatientReceipt(long id){
+        return receiptRepository.loadPatientReceipt(id);
+    }
+
+    public void removeDrugFromReceipt(long id){
+        receiptRepository.removeDrugFromReceipt(id);
+    }
+
+    public void update(Receipt receipt){
+        receiptRepository.update(receipt);
+    }
+
 }

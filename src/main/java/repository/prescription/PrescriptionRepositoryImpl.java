@@ -80,6 +80,25 @@ public class PrescriptionRepositoryImpl{
         }
     }
 
+    public Prescription loadPatientPrescription(long id){
+        String query = """
+                    select pa.id,pr.id,status from patient pa
+                    inner join prescription pr on pa.id = pr.patient_id
+                    where pa.id = ? and (status = 'PENDING' or status = 'ACCEPT')
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next())
+                return null;
+            return new Prescription(resultSet.getLong(2), resultSet.getLong(1),
+                    PrescriptionStatus.valueOf(resultSet.getString("status")));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public SimpleDrug[] loadPrescriptionsDrugs(long id){
         SimpleDrug[] drugs = new SimpleDrug[1000];
         int index = 0;

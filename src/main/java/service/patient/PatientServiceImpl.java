@@ -5,13 +5,19 @@ import entity.Prescription;
 import entity.Receipt;
 import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
+import repository.drug.DrugRepositoryImpl;
 import repository.patient.PatientRepositoryImpl;
 import repository.prescription.PrescriptionRepositoryImpl;
+import service.drug.DrugServiceImpl;
+import service.prescription.PrescriptionServiceImpl;
+import service.receipt.ReceiptServiceImpl;
 
 public class PatientServiceImpl {
 
     private final PatientRepositoryImpl patientRepository = new PatientRepositoryImpl();
-    private final PrescriptionRepositoryImpl prescriptionRepository = new PrescriptionRepositoryImpl();
+    private final PrescriptionServiceImpl prescriptionService = new PrescriptionServiceImpl();
+    private final ReceiptServiceImpl receiptService = new ReceiptServiceImpl();
+    private final DrugServiceImpl drugService = new DrugServiceImpl();
 
     public Patient load(Patient patient) {
         if (patientRepository.load(patient.getNationalCode()) == null) {
@@ -21,12 +27,12 @@ public class PatientServiceImpl {
     }
 
     public Prescription loadPrescription(Patient patient) {
-        return patientRepository.loadPrescription(patient.getId());
+        return prescriptionService.loadPatientPrescription(patient.getId());
     }
 
     public void addDrug(Patient patient, SimpleDrug drug) {
         patient.getPrescription().getDrugs().add(drug);
-        prescriptionRepository.saveDrug(patient.getPrescription().getId(), drug);
+        prescriptionService.saveDrug(patient.getPrescription().getId(), drug);
     }
 
     public void prescriptionStatus(Prescription prescription) {
@@ -40,36 +46,31 @@ public class PatientServiceImpl {
     }
 
     public void addPrescription(Patient patient) {
-        prescriptionRepository.save(patient.getPrescription());
+        prescriptionService.save(patient.getPrescription());
     }
 
-    public void updatePrescription(Prescription prescription){
-        prescriptionRepository.update(prescription);
+    public void updatePrescription(Prescription prescription) {
+        prescriptionService.update(prescription);
     }
 
     public Receipt loadReceipt(long id) {
-        return patientRepository.loadReceipt(id);
+        return receiptService.loadPatientReceipt(id);
     }
 
     public SimpleDrug[] loadPrescriptionsDrugs(long id) {
-        return patientRepository.loadPrescriptionsDrugs(id);
+        return prescriptionService.loadPrescriptionsDrugs(id);
     }
 
     public void removeDrugFromReceipt(long id) {
-        patientRepository.removeDrugFromReceipt(id);
+        receiptService.removeDrugFromReceipt(id);
     }
 
     public void changeNumberOfDrug(int count, String name) {
-        patientRepository.changeNumberOfDrug(count, name);
+        drugService.increaseNumberOfDrug(count, name);
     }
 
-    public void changeReceiptStatus(Receipt receipt){
-        patientRepository.changeReceipt(receipt);
-    }
-
-    private void addPrescription(Patient patient, PrescriptionStatus confirm) {
-        patient.getPrescription().setStatus(confirm);
-        prescriptionRepository.save(patient.getPrescription());
+    public void changeReceiptStatus(Receipt receipt) {
+        receiptService.update(receipt);
     }
 
 }

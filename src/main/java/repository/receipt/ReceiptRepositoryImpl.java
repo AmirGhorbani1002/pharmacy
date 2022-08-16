@@ -48,6 +48,45 @@ public class ReceiptRepositoryImpl {
         }
     }
 
+    public Receipt loadPatientReceipt(long id){
+        Receipt receipt = null;
+        String query = """
+                select * from receipt_drugs rd
+                inner join receipt r on r.id = rd.receipt_id
+                inner join prescription p on p.id = r.prescription_id
+                where p.patient_id = ? and r.status = 'UNPAID'
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                if (receipt == null)
+                    receipt = new Receipt(resultSet.getLong(6),
+                            resultSet.getLong(7), resultSet.getFloat(8));
+                receipt.getDrugs().add(new Drug(resultSet.getLong(1), resultSet.getString("name"),
+                        resultSet.getFloat(4), resultSet.getInt(3)));
+            }
+            return receipt;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeDrugFromReceipt(long id) {
+        String query = """
+                    delete from receipt_drugs
+                    where id = ?
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void saveDrug(long id, Drug drug, int number) {
         String query = """
                     insert into receipt_drugs(name, count, price, receipt_id)
@@ -66,4 +105,20 @@ public class ReceiptRepositoryImpl {
         }
     }
 
+    public void update(Receipt receipt){
+        String query = """
+                   update receipt
+                   set status = ?, price = ?
+                   where id = ?
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, receipt.getReceiptStatus().name());
+            preparedStatement.setFloat(2, receipt.getPrice());
+            preparedStatement.setLong(3, receipt.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -10,18 +10,34 @@ public class PrescriptionServiceImpl {
 
     private final PrescriptionRepositoryImpl prescriptionRepository = new PrescriptionRepositoryImpl();
 
-    public void updateStatus(long id, PrescriptionStatus status){
-        prescriptionRepository.update(id,status);
+    public void save(Prescription prescription){
+        prescriptionRepository.save(prescription);
     }
 
-    public void loadAllPendingPrescription(){
+    public void update(Prescription prescription){
+        prescriptionRepository.update(prescription);
+    }
+
+    public void updateStatus(long id, PrescriptionStatus status) {
+        prescriptionRepository.update(id, status);
+    }
+
+    public void loadAllPendingPrescription() {
         MyList<Prescription> prescriptions = new MyList<>();
         prescriptions.setItems(prescriptionRepository.loadAllPendingPrescription());
         System.out.println(prescriptions);
     }
 
-    public SimpleDrug[] loadPrescriptionsDrugs(long id){
+    public SimpleDrug[] loadPrescriptionsDrugs(long id) {
         return prescriptionRepository.loadPrescriptionsDrugs(id);
+    }
+
+    public Prescription loadPatientPrescription(long id) {
+        return prescriptionRepository.loadPatientPrescription(id);
+    }
+
+    public void saveDrug(long id, SimpleDrug drug) {
+        prescriptionRepository.saveDrug(id, drug);
     }
 
 }
