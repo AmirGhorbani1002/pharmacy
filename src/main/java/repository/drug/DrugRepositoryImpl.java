@@ -2,14 +2,12 @@ package repository.drug;
 
 import config.DBConfig;
 import entity.Drug;
-import repository.BaseRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DrugRepositoryImpl implements BaseRepository<Drug> {
-    @Override
+public class DrugRepositoryImpl{
     public void save(Drug drug) {
         String query = """
                     insert into drugs(name, price, count)
@@ -26,7 +24,6 @@ public class DrugRepositoryImpl implements BaseRepository<Drug> {
         }
     }
 
-    @Override
     public void remove(long id) {
         String query = """
                     delete from drugs
@@ -41,7 +38,6 @@ public class DrugRepositoryImpl implements BaseRepository<Drug> {
         }
     }
 
-    @Override
     public Drug load(long id) {
         String query = """
                     select * from drugs
@@ -60,7 +56,6 @@ public class DrugRepositoryImpl implements BaseRepository<Drug> {
         }
     }
 
-    @Override
     public void update(Drug drug) {
         String query = """
                     update drugs

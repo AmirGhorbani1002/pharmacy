@@ -1,7 +1,5 @@
 package entity;
 
-import java.util.List;
-
 public class Drug {
 
     private final long id;

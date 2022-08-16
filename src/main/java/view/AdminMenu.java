@@ -12,7 +12,7 @@ public class AdminMenu {
 
     public void showMenu() {
         System.out.println("These prescriptions require your approval");
-        adminService.loadAllPrescriptions(new Admin("a", "a", "a"));
+        adminService.loadAllPendingPrescription();
         System.out.println("Enter one of the Id's to check");
         int id = scanner.nextInt();
         adminService.loadPrescription(id);

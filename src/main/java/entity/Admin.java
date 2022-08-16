@@ -1,7 +1,6 @@
 package entity;
 
 import entity.abstracts.Person;
-import util.list.MyList;
 
 public class Admin extends Person {
 

@@ -14,18 +14,16 @@ public class AdminServiceImpl {
     private final DrugRepositoryImpl drugRepository = new DrugRepositoryImpl();
     private final ReceiptServiceImpl receiptService = new ReceiptServiceImpl();
     private final PrescriptionServiceImpl prescriptionService = new PrescriptionServiceImpl();
-    private final AdminRepositoryImpl adminRepository = new AdminRepositoryImpl();
+//    private final AdminRepositoryImpl adminRepository = new AdminRepositoryImpl();
     private final MyList<SimpleDrug> simpleDrugs = new MyList<>();
     private final MyList<Drug> drugs = new MyList<>();
 
-    public void loadAllPrescriptions(Admin admin) {
-        MyList<Prescription> prescriptions = new MyList<>();
-        prescriptions.setItems(adminRepository.loadAllPrescriptions());
-        System.out.println(prescriptions);
+    public void loadAllPendingPrescription() {
+        prescriptionService.loadAllPendingPrescription();
     }
 
     public void loadPrescription(long id){
-        simpleDrugs.setItems(adminRepository.loadPrescriptionsDrugs(id));
+        simpleDrugs.setItems(prescriptionService.loadPrescriptionsDrugs(id));
     }
 
     public int loadPrescriptionsDrugs(long id, int index) {
