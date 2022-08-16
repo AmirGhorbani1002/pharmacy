@@ -1,8 +1,7 @@
 package repository.patient;
 
 import config.DBConfig;
-import entity.*;
-import entity.enums.PrescriptionStatus;
+import entity.Patient;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

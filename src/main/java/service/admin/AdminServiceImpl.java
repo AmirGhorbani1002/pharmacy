@@ -4,14 +4,14 @@ import entity.*;
 import entity.enums.PrescriptionStatus;
 import entity.enums.ReceiptStatus;
 import repository.admin.AdminRepositoryImpl;
-import repository.drug.DrugRepositoryImpl;
+import service.drug.DrugServiceImpl;
 import service.prescription.PrescriptionServiceImpl;
 import service.receipt.ReceiptServiceImpl;
 import util.list.MyList;
 
 public class AdminServiceImpl {
 
-    private final DrugRepositoryImpl drugRepository = new DrugRepositoryImpl();
+    private final DrugServiceImpl drugService = new DrugServiceImpl();
     private final ReceiptServiceImpl receiptService = new ReceiptServiceImpl();
     private final PrescriptionServiceImpl prescriptionService = new PrescriptionServiceImpl();
 //    private final AdminRepositoryImpl adminRepository = new AdminRepositoryImpl();
@@ -28,7 +28,7 @@ public class AdminServiceImpl {
 
     public int loadPrescriptionsDrugs(long id, int index) {
         SimpleDrug simpleDrug = simpleDrugs.getItem(index);
-        Drug drug = drugRepository.load(simpleDrug.getName());
+        Drug drug = drugService.load(simpleDrug.getName());
         drugs.add(drug);
         System.out.println("The patient wants " + simpleDrug.getCount() +
                 " drug of " + simpleDrug.getName());
@@ -59,7 +59,7 @@ public class AdminServiceImpl {
         }
         Drug drug = drugs.getItem(index);
         drug.setCount(drug.getCount() - number);
-        drugRepository.update(drug);
+        drugService.update(drug);
         receiptService.saveDrug(receipt.getId(), drugs.getItem(index), number);
     }
 
