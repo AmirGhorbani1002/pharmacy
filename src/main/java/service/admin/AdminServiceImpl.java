@@ -4,12 +4,13 @@ import entity.*;
 import entity.enums.PrescriptionStatus;
 import entity.enums.ReceiptStatus;
 import repository.admin.AdminRepositoryImpl;
+import service.admin.interfaces.AdminService;
 import service.drug.DrugServiceImpl;
 import service.prescription.PrescriptionServiceImpl;
 import service.receipt.ReceiptServiceImpl;
 import util.list.MyList;
 
-public class AdminServiceImpl {
+public class AdminServiceImpl implements AdminService {
 
     private final DrugServiceImpl drugService = new DrugServiceImpl();
     private final ReceiptServiceImpl receiptService = new ReceiptServiceImpl();
@@ -18,14 +19,17 @@ public class AdminServiceImpl {
     private final MyList<SimpleDrug> simpleDrugs = new MyList<>();
     private final MyList<Drug> drugs = new MyList<>();
 
+    @Override
     public void loadAllPendingPrescription() {
         prescriptionService.loadAllPendingPrescription();
     }
 
+    @Override
     public void loadPrescription(long id){
         simpleDrugs.setItems(prescriptionService.loadPrescriptionsDrugs(id));
     }
 
+    @Override
     public int loadPrescriptionsDrugs(long id, int index) {
         SimpleDrug simpleDrug = simpleDrugs.getItem(index);
         Drug drug = drugService.load(simpleDrug.getName());
@@ -50,6 +54,7 @@ public class AdminServiceImpl {
         }
     }
 
+    @Override
     public void approvalOfTheDrug(long id, int index, int number) {
         Receipt receipt = receiptService.load(id);
         if (receipt == null) {
@@ -63,10 +68,12 @@ public class AdminServiceImpl {
         receiptService.saveDrug(receipt.getId(), drugs.getItem(index), number);
     }
 
+    @Override
     public int numberOfDrugs() {
         return simpleDrugs.size();
     }
 
+    @Override
     public void confirmPrescription(long id) {
         prescriptionService.updateStatus(id, PrescriptionStatus.ACCEPT);
     }
