@@ -23,4 +23,9 @@ public class DrugServiceImpl implements DrugService {
         drugRepository.update(drug);
     }
 
+    @Override
+    public void save(Drug drug) {
+        drugRepository.save(drug);
+    }
+
 }

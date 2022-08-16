@@ -70,6 +70,7 @@ public class PatientMenu {
                 }
                 System.out.println("Total price is: " + receipt.getPrice() + " Toman");
                 System.out.print("If you want to delete something, Enter the id otherwise Enter 0: ");
+                System.out.print("If you want to delete your receipt, Enter delete: ");
                 int inputId = scanner.nextInt();
                 if (inputId == 0) {
                     receipt.setReceiptStatus(ReceiptStatus.PAID);

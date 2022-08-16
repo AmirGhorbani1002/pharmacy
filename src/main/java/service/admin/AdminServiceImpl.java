@@ -78,4 +78,16 @@ public class AdminServiceImpl implements AdminService {
         prescriptionService.updateStatus(id, PrescriptionStatus.ACCEPT);
     }
 
+    @Override
+    public void addDrug(Drug drug) {
+        Drug drug2 = drugService.load(drug.getName());
+        if(drug2 == null)
+            drugService.save(drug);
+        else{
+            drug.setId(drug2.getId());
+            drugService.update(drug);
+        }
+
+    }
+
 }

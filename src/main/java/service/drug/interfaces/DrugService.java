@@ -7,4 +7,6 @@ public interface DrugService {
     void increaseNumberOfDrug(int count, String name);
     Drug load(String name);
     void update(Drug drug);
+
+    void save(Drug drug);
 }

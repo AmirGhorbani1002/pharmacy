@@ -65,7 +65,7 @@ public class DrugRepositoryImpl implements DrugRepository {
     public void update(Drug drug) {
         String query = """
                     update drugs
-                    set price = ?, count = ?
+                    set price = ?, count = count + ?
                     where id = ?
                 """;
         try {

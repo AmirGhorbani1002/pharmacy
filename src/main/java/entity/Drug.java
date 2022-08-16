@@ -2,7 +2,7 @@ package entity;
 
 public class Drug {
 
-    private final long id;
+    private long id;
     private final String name;
     private float price;
     private int count;
@@ -17,6 +17,10 @@ public class Drug {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
