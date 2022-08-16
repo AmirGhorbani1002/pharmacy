@@ -36,7 +36,8 @@ public class AdminServiceImpl {
                 " drug of " + simpleDrug.getName());
         if (drug == null) {
             Drug temp = new Drug(-1, simpleDrug.getName(), 0, 0);
-            receiptService.saveDrug(id, temp, 0);
+            Receipt receipt = receiptService.load(id);
+            receiptService.saveDrug(receipt.getId(), temp, 0);
             return -1;
         } else {
             if (drug.getCount() < simpleDrug.getCount()) {
@@ -45,7 +46,7 @@ public class AdminServiceImpl {
                 return 0;
             } else {
                 System.out.println("There are enough of these drug in stock. We have "
-                        + drug.getCount() + " but patient wants " + simpleDrug.getCount());
+                        + drug.getCount() + " and patient wants " + simpleDrug.getCount());
                 return 1;
             }
         }

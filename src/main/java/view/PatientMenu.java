@@ -5,6 +5,7 @@ import entity.Prescription;
 import entity.Receipt;
 import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
+import entity.enums.ReceiptStatus;
 import service.patient.PatientServiceImpl;
 import util.list.MyList;
 
@@ -27,8 +28,9 @@ public class PatientMenu {
             for (int i = 10; i > 0; i--) {
                 System.out.println("Remaining: " + i);
                 System.out.print("Enter the name of the drug you need: ");
+                scanner.nextLine();
                 String name = scanner.nextLine();
-                System.out.print("How much of this drug do you need?");
+                System.out.print("How much of this drug do you need? ");
                 int count = scanner.nextInt();
                 SimpleDrug drug = new SimpleDrug(name, count);
                 patientService.addDrug(patient, drug);
@@ -44,7 +46,6 @@ public class PatientMenu {
             while (true) {
                 patient.setPrescription(patientService.loadPrescription(patient));
                 patient.getPrescription().setDrugs(new MyList<>());
-                System.out.println(patient.getPrescription().getId());
                 patient.getPrescription().getDrugs().setItems(patientService.
                         loadPrescriptionsDrugs(patient.getPrescription().getId()));
                 Receipt receipt = patientService.loadReceipt(patient.getId());
@@ -58,19 +59,29 @@ public class PatientMenu {
                             System.out.print((i + 1) + ") For " + receipt.getDrugs().getItem(i).getName() +
                                     " drug, you want " + patientCount + ", But we have " + myCount + " number.");
                             System.out.println(" Price is: " + receipt.getDrugs().getItem(i).getPrice() + " Toman");
+                            receipt.setPrice(receipt.getPrice() + receipt.getDrugs().getItem(i).getPrice());
                         } else {
                             System.out.print((i + 1) + ") For " + receipt.getDrugs().getItem(i).getName() +
-                                    " drug, We have enough");
+                                    " drug, We have enough number.");
                             System.out.println(" Price is: " + receipt.getDrugs().getItem(i).getPrice() + " Toman");
+                            receipt.setPrice(receipt.getPrice() + receipt.getDrugs().getItem(i).getPrice());
                         }
                     }
                 }
+                System.out.println("Total price is: " + receipt.getPrice() + " Toman");
                 System.out.print("If you want to delete something, Enter the id otherwise Enter 0: ");
-                int deleteId = scanner.nextInt();
-                if (deleteId == 0) {
+                int inputId = scanner.nextInt();
+                if (inputId == 0) {
+                    receipt.setReceiptStatus(ReceiptStatus.PAID);
+                    patientService.changeReceiptStatus(receipt);
+                    patientService.prescriptionStatus(prescription);
                     break;
+                } else {
+                    patientService.removeDrugFromReceipt(receipt.getDrugs().getItem(inputId - 1).getId());
+                    patientService.changeNumberOfDrug(receipt.getDrugs().getItem(inputId - 1).getCount(),
+                            receipt.getDrugs().getItem(inputId - 1).getName());
                 }
-                receipt.getDrugs().remove(deleteId - 1);
+
             }
         }
     }

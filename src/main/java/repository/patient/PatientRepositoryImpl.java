@@ -3,7 +3,6 @@ package repository.patient;
 import config.DBConfig;
 import entity.*;
 import entity.enums.PrescriptionStatus;
-import util.list.MyList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,7 +52,7 @@ public class PatientRepositoryImpl implements PatientRepository {
         String query = """
                     select pa.id,pr.id,status from patient pa
                     inner join prescription pr on pa.id = pr.patient_id
-                    where pa.id = ?
+                    where pa.id = ? and (status = 'PENDING' or status = 'ACCEPT')
                 """;
         try {
             PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
@@ -61,7 +60,7 @@ public class PatientRepositoryImpl implements PatientRepository {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next())
                 return null;
-            return new Prescription(resultSet.getLong(2),resultSet.getLong(1),
+            return new Prescription(resultSet.getLong(2), resultSet.getLong(1),
                     PrescriptionStatus.valueOf(resultSet.getString("status")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -79,8 +78,8 @@ public class PatientRepositoryImpl implements PatientRepository {
             PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                SimpleDrug drug = new SimpleDrug(resultSet.getString("name"),resultSet.getInt("count"));
+            while (resultSet.next()) {
+                SimpleDrug drug = new SimpleDrug(resultSet.getString("name"), resultSet.getInt("count"));
                 drugs[index++] = drug;
             }
             return drugs;
@@ -102,13 +101,60 @@ public class PatientRepositoryImpl implements PatientRepository {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                if(receipt == null)
+                if (receipt == null)
                     receipt = new Receipt(resultSet.getLong(6),
-                        resultSet.getLong(7), resultSet.getFloat(8));
-                receipt.getDrugs().add(new Drug(-1, resultSet.getString("name"),
+                            resultSet.getLong(7), resultSet.getFloat(8));
+                receipt.getDrugs().add(new Drug(resultSet.getLong(1), resultSet.getString("name"),
                         resultSet.getFloat(4), resultSet.getInt(3)));
             }
             return receipt;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeDrugFromReceipt(long id) {
+        String query = """
+                    delete from receipt_drugs
+                    where id = ?
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void changeNumberOfDrug(int count, String name) {
+        String query = """
+                    update drugs
+                    set count = count + ?
+                    where name = ?
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setInt(1, count);
+            preparedStatement.setString(2, name);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void changeReceipt(Receipt receipt) {
+        String query = """
+                   update receipt
+                   set status = ?, price = ?
+                   where id = ?
+                """;
+        try {
+            PreparedStatement preparedStatement = DBConfig.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, receipt.getReceiptStatus().name());
+            preparedStatement.setFloat(2, receipt.getPrice());
+            preparedStatement.setLong(3, receipt.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -13,40 +13,58 @@ public class PatientServiceImpl {
     private final PatientRepositoryImpl patientRepository = new PatientRepositoryImpl();
     private final PrescriptionRepositoryImpl prescriptionRepository = new PrescriptionRepositoryImpl();
 
-    public Patient load(Patient patient){
-        if(patientRepository.load(patient.getNationalCode()) == null){
+    public Patient load(Patient patient) {
+        if (patientRepository.load(patient.getNationalCode()) == null) {
             patientRepository.save(patient);
         }
         return patientRepository.load(patient.getNationalCode());
     }
 
-    public Prescription loadPrescription(Patient patient){
+    public Prescription loadPrescription(Patient patient) {
         return patientRepository.loadPrescription(patient.getId());
     }
 
-    public void addDrug(Patient patient, SimpleDrug drug){
+    public void addDrug(Patient patient, SimpleDrug drug) {
         patient.getPrescription().getDrugs().add(drug);
-        prescriptionRepository.saveDrug(patient.getPrescription().getId(),drug);
+        prescriptionRepository.saveDrug(patient.getPrescription().getId(), drug);
     }
 
-    public void prescriptionStatus(Patient patient){
-        if(patient.getPrescription().getStatus() == PrescriptionStatus.ACCEPT){
-            addPrescription(patient, PrescriptionStatus.CONFIRM);
-        } else{
-            addPrescription(patient, PrescriptionStatus.CANCEL);
+    public void prescriptionStatus(Prescription prescription) {
+        if (prescription.getStatus() == PrescriptionStatus.ACCEPT) {
+            prescription.setStatus(PrescriptionStatus.CONFIRM);
+            updatePrescription(prescription);
+        } else {
+            prescription.setStatus(PrescriptionStatus.CANCEL);
+            updatePrescription(prescription);
         }
     }
 
-    public void addPrescription(Patient patient){
+    public void addPrescription(Patient patient) {
         prescriptionRepository.save(patient.getPrescription());
     }
 
-    public Receipt loadReceipt(long id){
+    public void updatePrescription(Prescription prescription){
+        prescriptionRepository.update(prescription);
+    }
+
+    public Receipt loadReceipt(long id) {
         return patientRepository.loadReceipt(id);
     }
 
-    public SimpleDrug[] loadPrescriptionsDrugs(long id){
-       return patientRepository.loadPrescriptionsDrugs(id);
+    public SimpleDrug[] loadPrescriptionsDrugs(long id) {
+        return patientRepository.loadPrescriptionsDrugs(id);
+    }
+
+    public void removeDrugFromReceipt(long id) {
+        patientRepository.removeDrugFromReceipt(id);
+    }
+
+    public void changeNumberOfDrug(int count, String name) {
+        patientRepository.changeNumberOfDrug(count, name);
+    }
+
+    public void changeReceiptStatus(Receipt receipt){
+        patientRepository.changeReceipt(receipt);
     }
 
     private void addPrescription(Patient patient, PrescriptionStatus confirm) {
