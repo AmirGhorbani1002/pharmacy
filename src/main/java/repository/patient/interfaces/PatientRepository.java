@@ -1,4 +1,4 @@
-package repository.patient;
+package repository.patient.interfaces;
 
 import entity.Patient;
 

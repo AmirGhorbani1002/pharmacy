@@ -3,14 +3,16 @@ package repository.receipt;
 import config.DBConfig;
 import entity.Drug;
 import entity.Receipt;
+import repository.receipt.interfaces.ReceiptRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ReceiptRepositoryImpl {
+public class ReceiptRepositoryImpl implements ReceiptRepository {
 
+    @Override
     public void save(Receipt receipt) {
         String query = """
                     insert into receipt(prescription_id, price, status)
@@ -30,6 +32,7 @@ public class ReceiptRepositoryImpl {
         }
     }
 
+    @Override
     public Receipt load(long id){
         String query = """
                     select * from receipt
@@ -48,6 +51,7 @@ public class ReceiptRepositoryImpl {
         }
     }
 
+    @Override
     public Receipt loadPatientReceipt(long id){
         Receipt receipt = null;
         String query = """
@@ -73,6 +77,7 @@ public class ReceiptRepositoryImpl {
         }
     }
 
+    @Override
     public void removeDrugFromReceipt(long id) {
         String query = """
                     delete from receipt_drugs
@@ -87,6 +92,7 @@ public class ReceiptRepositoryImpl {
         }
     }
 
+    @Override
     public void saveDrug(long id, Drug drug, int number) {
         String query = """
                     insert into receipt_drugs(name, count, price, receipt_id)
@@ -105,6 +111,7 @@ public class ReceiptRepositoryImpl {
         }
     }
 
+    @Override
     public void update(Receipt receipt){
         String query = """
                    update receipt

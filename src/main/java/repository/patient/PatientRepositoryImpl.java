@@ -2,6 +2,7 @@ package repository.patient;
 
 import config.DBConfig;
 import entity.Patient;
+import repository.patient.interfaces.PatientRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

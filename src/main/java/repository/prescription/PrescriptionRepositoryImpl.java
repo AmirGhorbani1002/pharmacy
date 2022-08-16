@@ -4,12 +4,15 @@ import config.DBConfig;
 import entity.Prescription;
 import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
+import repository.prescription.interfaces.PrescriptionRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PrescriptionRepositoryImpl{
+public class PrescriptionRepositoryImpl implements PrescriptionRepository {
+
+    @Override
     public void save(Prescription prescription) {
         String query = """
                     insert into prescription(patient_id, status)
@@ -25,6 +28,7 @@ public class PrescriptionRepositoryImpl{
         }
     }
 
+    @Override
     public void remove(long id) {
         String query = """
                     delete from prescription
@@ -39,6 +43,7 @@ public class PrescriptionRepositoryImpl{
         }
     }
 
+    @Override
     public Prescription load(long id) {
         String query = """
                     select * from prescription
@@ -59,6 +64,7 @@ public class PrescriptionRepositoryImpl{
         }
     }
 
+    @Override
     public Prescription[] loadAllPendingPrescription(){
         Prescription[] prescriptions = new Prescription[1000];
         int index = 0;
@@ -80,6 +86,7 @@ public class PrescriptionRepositoryImpl{
         }
     }
 
+    @Override
     public Prescription loadPatientPrescription(long id){
         String query = """
                     select pa.id,pr.id,status from patient pa
@@ -99,6 +106,7 @@ public class PrescriptionRepositoryImpl{
         }
     }
 
+    @Override
     public SimpleDrug[] loadPrescriptionsDrugs(long id){
         SimpleDrug[] drugs = new SimpleDrug[1000];
         int index = 0;
@@ -120,6 +128,7 @@ public class PrescriptionRepositoryImpl{
         }
     }
 
+    @Override
     public void update(Prescription prescription) {
         String query = """
                     update prescription
@@ -136,6 +145,7 @@ public class PrescriptionRepositoryImpl{
         }
     }
 
+    @Override
     public void update(long id, PrescriptionStatus status) {
         String query = """
                     update prescription
@@ -152,6 +162,7 @@ public class PrescriptionRepositoryImpl{
         }
     }
 
+    @Override
     public void saveDrug(long id, SimpleDrug drug){
         String query = """
                     insert into prescription_drugs(name, count, prescription_id)

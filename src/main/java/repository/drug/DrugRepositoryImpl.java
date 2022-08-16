@@ -2,12 +2,15 @@ package repository.drug;
 
 import config.DBConfig;
 import entity.Drug;
+import repository.drug.interfaces.DrugRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DrugRepositoryImpl{
+public class DrugRepositoryImpl implements DrugRepository {
+
+    @Override
     public void save(Drug drug) {
         String query = """
                     insert into drugs(name, price, count)
@@ -24,6 +27,7 @@ public class DrugRepositoryImpl{
         }
     }
 
+    @Override
     public void remove(long id) {
         String query = """
                     delete from drugs
@@ -38,6 +42,7 @@ public class DrugRepositoryImpl{
         }
     }
 
+    @Override
     public Drug load(long id) {
         String query = """
                     select * from drugs
@@ -56,6 +61,7 @@ public class DrugRepositoryImpl{
         }
     }
 
+    @Override
     public void update(Drug drug) {
         String query = """
                     update drugs
@@ -73,6 +79,7 @@ public class DrugRepositoryImpl{
         }
     }
 
+    @Override
     public Drug load(String name) {
         String query = """
                     select * from drugs
@@ -91,6 +98,7 @@ public class DrugRepositoryImpl{
         }
     }
 
+    @Override
     public void increaseNumberOfDrug(int count, String name){
         String query = """
                     update drugs
