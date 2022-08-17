@@ -1,4 +1,4 @@
-package view;
+package view.patient;
 
 import check.Check;
 import entity.Patient;

@@ -3,6 +3,7 @@ package service.admin;
 import entity.*;
 import entity.enums.PrescriptionStatus;
 import entity.enums.ReceiptStatus;
+import repository.admin.interfaces.AdminRepository;
 import service.admin.interfaces.AdminService;
 import service.drug.interfaces.DrugService;
 import service.prescription.interfaces.PrescriptionService;
@@ -14,17 +15,22 @@ public class AdminServiceImpl implements AdminService {
     private final DrugService drugService;
     private final ReceiptService receiptService;
     private final PrescriptionService prescriptionService;
-    //    private final AdminRepositoryImpl adminRepository = new AdminRepositoryImpl();
+    private final AdminRepository adminRepository;
 
-
-    public AdminServiceImpl(DrugService drugService, ReceiptService receiptService, PrescriptionService prescriptionService) {
+    public AdminServiceImpl(DrugService drugService, ReceiptService receiptService, PrescriptionService prescriptionService, AdminRepository adminRepository) {
         this.drugService = drugService;
         this.receiptService = receiptService;
         this.prescriptionService = prescriptionService;
+        this.adminRepository = adminRepository;
     }
 
     private final MyList<SimpleDrug> simpleDrugs = new MyList<>();
     private final MyList<Drug> drugs = new MyList<>();
+
+    @Override
+    public boolean load(String password) {
+        return adminRepository.load(password);
+    }
 
     @Override
     public void loadAllPendingPrescription() {

@@ -1,6 +1,7 @@
-package view;
+package view.admin;
 
 import check.Check;
+import repository.admin.AdminRepositoryImpl;
 import repository.drug.DrugRepositoryImpl;
 import repository.prescription.PrescriptionRepositoryImpl;
 import repository.receipt.ReceiptRepositoryImpl;
@@ -19,7 +20,8 @@ public class AdminMenu {
     private final AdminMethods adminMethods = new AdminMethods(new AdminServiceImpl(
             new DrugServiceImpl(new DrugRepositoryImpl()),
             new ReceiptServiceImpl(new ReceiptRepositoryImpl()),
-            new PrescriptionServiceImpl(new PrescriptionRepositoryImpl())
+            new PrescriptionServiceImpl(new PrescriptionRepositoryImpl()),
+            new AdminRepositoryImpl()
     ));
 
     public void showMenu() {

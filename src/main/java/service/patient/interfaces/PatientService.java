@@ -7,7 +7,8 @@ import entity.SimpleDrug;
 
 public interface PatientService {
 
-    Patient load(Patient patient);
+    void save(Patient patient);
+    Patient load(String nationalCode);
     Prescription loadPrescription(Patient patient);
     void addDrug(Patient patient, SimpleDrug drug);
     void changePrescriptionStatus(Prescription prescription);

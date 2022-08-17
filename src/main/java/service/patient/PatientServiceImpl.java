@@ -27,11 +27,13 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient load(Patient patient) {
-        if (patientRepository.load(patient.getNationalCode()) == null) {
-            patientRepository.save(patient);
-        }
-        return patientRepository.load(patient.getNationalCode());
+    public void save(Patient patient) {
+        patientRepository.save(patient);
+    }
+
+    @Override
+    public Patient load(String nationalCode) {
+        return patientRepository.load(nationalCode);
     }
 
     @Override
