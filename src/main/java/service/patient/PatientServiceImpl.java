@@ -5,18 +5,26 @@ import entity.Prescription;
 import entity.Receipt;
 import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
-import repository.patient.PatientRepositoryImpl;
-import service.drug.DrugServiceImpl;
+import repository.patient.interfaces.PatientRepository;
+import service.drug.interfaces.DrugService;
 import service.patient.interfaces.PatientService;
-import service.prescription.PrescriptionServiceImpl;
-import service.receipt.ReceiptServiceImpl;
+import service.prescription.interfaces.PrescriptionService;
+import service.receipt.interfaces.ReceiptService;
 
 public class PatientServiceImpl implements PatientService {
 
-    private final PatientRepositoryImpl patientRepository = new PatientRepositoryImpl();
-    private final PrescriptionServiceImpl prescriptionService = new PrescriptionServiceImpl();
-    private final ReceiptServiceImpl receiptService = new ReceiptServiceImpl();
-    private final DrugServiceImpl drugService = new DrugServiceImpl();
+    private final PatientRepository patientRepository;
+    private final PrescriptionService prescriptionService;
+    private final ReceiptService receiptService;
+    private final DrugService drugService;
+
+    public PatientServiceImpl(PatientRepository patientRepository, PrescriptionService prescriptionService,
+                              ReceiptService receiptService, DrugService drugService) {
+        this.patientRepository = patientRepository;
+        this.prescriptionService = prescriptionService;
+        this.receiptService = receiptService;
+        this.drugService = drugService;
+    }
 
     @Override
     public Patient load(Patient patient) {

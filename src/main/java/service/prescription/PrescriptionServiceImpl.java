@@ -1,16 +1,19 @@
 package service.prescription;
 
-import check.Check;
 import entity.Prescription;
 import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
-import repository.prescription.PrescriptionRepositoryImpl;
+import repository.prescription.interfaces.PrescriptionRepository;
 import service.prescription.interfaces.PrescriptionService;
 import util.list.MyList;
 
 public class PrescriptionServiceImpl implements PrescriptionService {
 
-    private final PrescriptionRepositoryImpl prescriptionRepository = new PrescriptionRepositoryImpl();
+    private final PrescriptionRepository prescriptionRepository;
+
+    public PrescriptionServiceImpl(PrescriptionRepository prescriptionRepository) {
+        this.prescriptionRepository = prescriptionRepository;
+    }
 
     @Override
     public void save(Prescription prescription){

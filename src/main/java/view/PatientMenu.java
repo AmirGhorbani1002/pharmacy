@@ -7,7 +7,7 @@ import entity.Receipt;
 import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
 import entity.enums.ReceiptStatus;
-import service.patient.PatientServiceImpl;
+import service.patient.interfaces.PatientService;
 import util.list.MyList;
 
 import java.util.Objects;
@@ -16,7 +16,11 @@ import java.util.Scanner;
 public class PatientMenu {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final PatientServiceImpl patientService = new PatientServiceImpl();
+    private final PatientService patientService;
+
+    public PatientMenu(PatientService patientService) {
+        this.patientService = patientService;
+    }
 
     private final Check check = new Check();
 

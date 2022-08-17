@@ -2,12 +2,16 @@ package service.receipt;
 
 import entity.Drug;
 import entity.Receipt;
-import repository.receipt.ReceiptRepositoryImpl;
+import repository.receipt.interfaces.ReceiptRepository;
 import service.receipt.interfaces.ReceiptService;
 
 public class ReceiptServiceImpl implements ReceiptService {
 
-    private final ReceiptRepositoryImpl receiptRepository = new ReceiptRepositoryImpl();
+    private final ReceiptRepository receiptRepository;
+
+    public ReceiptServiceImpl(ReceiptRepository receiptRepository) {
+        this.receiptRepository = receiptRepository;
+    }
 
     @Override
     public void save(Receipt receipt) {

@@ -3,19 +3,26 @@ package service.admin;
 import entity.*;
 import entity.enums.PrescriptionStatus;
 import entity.enums.ReceiptStatus;
-import repository.admin.AdminRepositoryImpl;
 import service.admin.interfaces.AdminService;
-import service.drug.DrugServiceImpl;
-import service.prescription.PrescriptionServiceImpl;
-import service.receipt.ReceiptServiceImpl;
+import service.drug.interfaces.DrugService;
+import service.prescription.interfaces.PrescriptionService;
+import service.receipt.interfaces.ReceiptService;
 import util.list.MyList;
 
 public class AdminServiceImpl implements AdminService {
 
-    private final DrugServiceImpl drugService = new DrugServiceImpl();
-    private final ReceiptServiceImpl receiptService = new ReceiptServiceImpl();
-    private final PrescriptionServiceImpl prescriptionService = new PrescriptionServiceImpl();
+    private final DrugService drugService;
+    private final ReceiptService receiptService;
+    private final PrescriptionService prescriptionService;
     //    private final AdminRepositoryImpl adminRepository = new AdminRepositoryImpl();
+
+
+    public AdminServiceImpl(DrugService drugService, ReceiptService receiptService, PrescriptionService prescriptionService) {
+        this.drugService = drugService;
+        this.receiptService = receiptService;
+        this.prescriptionService = prescriptionService;
+    }
+
     private final MyList<SimpleDrug> simpleDrugs = new MyList<>();
     private final MyList<Drug> drugs = new MyList<>();
 

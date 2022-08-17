@@ -1,7 +1,13 @@
 package view;
 
 import check.Check;
+import repository.drug.DrugRepositoryImpl;
+import repository.prescription.PrescriptionRepositoryImpl;
+import repository.receipt.ReceiptRepositoryImpl;
 import service.admin.AdminServiceImpl;
+import service.drug.DrugServiceImpl;
+import service.prescription.PrescriptionServiceImpl;
+import service.receipt.ReceiptServiceImpl;
 import view.admin.AdminMethods;
 
 import java.util.Objects;
@@ -10,7 +16,11 @@ import java.util.Scanner;
 public class AdminMenu {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final AdminMethods adminMethods = new AdminMethods(new AdminServiceImpl());
+    private final AdminMethods adminMethods = new AdminMethods(new AdminServiceImpl(
+            new DrugServiceImpl(new DrugRepositoryImpl()),
+            new ReceiptServiceImpl(new ReceiptRepositoryImpl()),
+            new PrescriptionServiceImpl(new PrescriptionRepositoryImpl())
+    ));
 
     public void showMenu() {
         while(true){

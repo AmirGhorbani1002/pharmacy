@@ -1,7 +1,15 @@
 package view;
 
 import entity.Patient;
+import repository.drug.DrugRepositoryImpl;
+import repository.patient.PatientRepositoryImpl;
+import repository.prescription.PrescriptionRepositoryImpl;
+import repository.receipt.ReceiptRepositoryImpl;
+import service.drug.DrugServiceImpl;
 import service.patient.PatientServiceImpl;
+import service.patient.interfaces.PatientService;
+import service.prescription.PrescriptionServiceImpl;
+import service.receipt.ReceiptServiceImpl;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -9,9 +17,18 @@ import java.util.Scanner;
 public class MainMenu {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final PatientServiceImpl patientService = new PatientServiceImpl();
-    private final PatientMenu patientMenu = new PatientMenu();
+    private final PatientService patientService;
+    private final PatientMenu patientMenu = new PatientMenu(new PatientServiceImpl(
+            new PatientRepositoryImpl(),
+            new PrescriptionServiceImpl(new PrescriptionRepositoryImpl()),
+            new ReceiptServiceImpl(new ReceiptRepositoryImpl()),
+            new DrugServiceImpl(new DrugRepositoryImpl())
+    ));
     private final AdminMenu adminMenu = new AdminMenu();
+
+    public MainMenu(PatientService patientService) {
+        this.patientService = patientService;
+    }
 
     public void showMenu() {
         while (true) {

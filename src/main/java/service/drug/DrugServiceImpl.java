@@ -1,12 +1,16 @@
 package service.drug;
 
 import entity.Drug;
-import repository.drug.DrugRepositoryImpl;
+import repository.drug.interfaces.DrugRepository;
 import service.drug.interfaces.DrugService;
 
 public class DrugServiceImpl implements DrugService {
 
-    private final DrugRepositoryImpl drugRepository = new DrugRepositoryImpl();
+    private final DrugRepository drugRepository;
+
+    public DrugServiceImpl(DrugRepository drugRepository) {
+        this.drugRepository = drugRepository;
+    }
 
     @Override
     public void increaseNumberOfDrug(int count, String name) {
