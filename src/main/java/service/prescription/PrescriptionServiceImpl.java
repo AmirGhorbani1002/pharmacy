@@ -31,14 +31,10 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public void loadAllPendingPrescription() {
+    public Prescription[] loadAllPendingPrescription() {
         MyList<Prescription> prescriptions = new MyList<>();
         prescriptions.setItems(prescriptionRepository.loadAllPendingPrescription());
-        if(prescriptions.size() == 0){
-            System.out.println("No prescription for checking");
-            return;
-        }
-        System.out.println(prescriptions);
+        return prescriptions.getList();
     }
 
     @Override

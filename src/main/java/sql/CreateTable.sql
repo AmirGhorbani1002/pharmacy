@@ -33,18 +33,20 @@ create table if not exists receipt
 (
     id              bigserial primary key not null,
     prescription_id int8 references prescription (id),
-    price           float                 not null
+    price           float                 not null,
+    status varchar(255) not null
 );
 
-create table admin
+create table if not exists admin
 (
     id       serial primary key not null,
     password varchar(255)       not null
 );
 
-create table receipt_drugs(
+create table if not exists receipt_drugs(
                               id bigserial primary key not null,
                               name varchar(255) not null,
                               count int not null,
+                              price float not null,
                               receipt_id int8 references receipt(id)
 );

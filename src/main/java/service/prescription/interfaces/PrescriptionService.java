@@ -9,7 +9,7 @@ public interface PrescriptionService {
     void save(Prescription prescription);
     void update(Prescription prescription);
     void updateStatus(long id, PrescriptionStatus status);
-    void loadAllPendingPrescription();
+    Prescription[] loadAllPendingPrescription();
     SimpleDrug[] loadPrescriptionsDrugs(long id);
     Prescription loadPatientPrescription(long id);
     void saveDrug(long id, SimpleDrug drug);

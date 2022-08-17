@@ -33,8 +33,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void loadAllPendingPrescription() {
-        prescriptionService.loadAllPendingPrescription();
+    public Prescription[] loadAllPendingPrescription() {
+        return prescriptionService.loadAllPendingPrescription();
     }
 
     @Override

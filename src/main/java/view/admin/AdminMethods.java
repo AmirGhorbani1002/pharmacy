@@ -2,7 +2,9 @@ package view.admin;
 
 import check.Check;
 import entity.Drug;
+import entity.Prescription;
 import service.admin.interfaces.AdminService;
+import util.list.MyList;
 
 import java.util.Scanner;
 
@@ -19,7 +21,12 @@ public class AdminMethods {
 
     public void showPrescriptions() {
         System.out.println("These prescriptions require your approval");
-        adminService.loadAllPendingPrescription();
+        Prescription[] prescriptions = adminService.loadAllPendingPrescription();
+        if(prescriptions.length == 0)
+            return;
+         MyList<Prescription> prescriptionMyList = new MyList<>();
+         prescriptionMyList.setItems(prescriptions);
+        System.out.println(prescriptionMyList);
         Check.pressEnter();
         selectPrescription();
     }
