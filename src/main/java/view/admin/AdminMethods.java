@@ -22,8 +22,11 @@ public class AdminMethods {
     public void showPrescriptions() {
         System.out.println("These prescriptions require your approval");
         Prescription[] prescriptions = adminService.loadAllPendingPrescription();
-        if(prescriptions.length == 0)
+        if(prescriptions[0] == null){
+            System.out.println("There is no pending prescription");
+            Check.pressEnter();
             return;
+        }
          MyList<Prescription> prescriptionMyList = new MyList<>();
          prescriptionMyList.setItems(prescriptions);
         System.out.println(prescriptionMyList);
