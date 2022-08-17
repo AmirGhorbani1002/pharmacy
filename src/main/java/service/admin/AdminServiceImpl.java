@@ -15,7 +15,7 @@ public class AdminServiceImpl implements AdminService {
     private final DrugServiceImpl drugService = new DrugServiceImpl();
     private final ReceiptServiceImpl receiptService = new ReceiptServiceImpl();
     private final PrescriptionServiceImpl prescriptionService = new PrescriptionServiceImpl();
-//    private final AdminRepositoryImpl adminRepository = new AdminRepositoryImpl();
+    //    private final AdminRepositoryImpl adminRepository = new AdminRepositoryImpl();
     private final MyList<SimpleDrug> simpleDrugs = new MyList<>();
     private final MyList<Drug> drugs = new MyList<>();
 
@@ -25,12 +25,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void loadPrescription(long id){
+    public boolean loadPrescription(long id) {
         simpleDrugs.setItems(prescriptionService.loadPrescriptionsDrugs(id));
+        if(simpleDrugs.getItem(0) == null)
+            return false;
+        return prescriptionService.load(id).getStatus() == PrescriptionStatus.PENDING;
     }
 
     @Override
-    public int loadPrescriptionsDrugs(long id, int index) {
+    public int[] loadPrescriptionsDrugs(long id, int index) {
         SimpleDrug simpleDrug = simpleDrugs.getItem(index);
         Drug drug = drugService.load(simpleDrug.getName());
         drugs.add(drug);
@@ -39,17 +42,21 @@ public class AdminServiceImpl implements AdminService {
         if (drug == null) {
             Drug temp = new Drug(-1, simpleDrug.getName(), 0, 0);
             Receipt receipt = receiptService.load(id);
+            if (receipt == null){
+                receiptService.save(new Receipt(-1, id, 0));
+                receipt = receiptService.load(id);
+            }
             receiptService.saveDrug(receipt.getId(), temp, 0);
-            return -1;
+            return new int[]{-1, -1};
         } else {
             if (drug.getCount() < simpleDrug.getCount()) {
                 System.out.println("We do not have this number of drug in our warehouse. We have "
                         + drug.getCount() + " but patient wants " + simpleDrug.getCount());
-                return 0;
+                return new int[]{0, drug.getCount()};
             } else {
                 System.out.println("There are enough of these drug in stock. We have "
                         + drug.getCount() + " and patient wants " + simpleDrug.getCount());
-                return 1;
+                return new int[]{1, drug.getCount()};
             }
         }
     }
@@ -81,11 +88,12 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void addDrug(Drug drug) {
         Drug drug2 = drugService.load(drug.getName());
-        if(drug2 == null)
+        if (drug2 == null)
             drugService.save(drug);
-        else{
-            drug.setId(drug2.getId());
-            drugService.update(drug);
+        else {
+            drug2.setCount(drug.getCount() + drug2.getCount());
+            drug2.setPrice(drug.getPrice());
+            drugService.update(drug2);
         }
 
     }

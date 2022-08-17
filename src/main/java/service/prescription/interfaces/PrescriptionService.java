@@ -13,4 +13,5 @@ public interface PrescriptionService {
     SimpleDrug[] loadPrescriptionsDrugs(long id);
     Prescription loadPatientPrescription(long id);
     void saveDrug(long id, SimpleDrug drug);
+    Prescription load(long id);
 }

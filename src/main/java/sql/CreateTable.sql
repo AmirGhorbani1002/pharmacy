@@ -40,4 +40,11 @@ create table admin
 (
     id       serial primary key not null,
     password varchar(255)       not null
-)
+);
+
+create table receipt_drugs(
+                              id bigserial primary key not null,
+                              name varchar(255) not null,
+                              count int not null,
+                              receipt_id int8 references receipt(id)
+);

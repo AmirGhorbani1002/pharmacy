@@ -10,7 +10,7 @@ public interface PatientService {
     Patient load(Patient patient);
     Prescription loadPrescription(Patient patient);
     void addDrug(Patient patient, SimpleDrug drug);
-    void prescriptionStatus(Prescription prescription);
+    void changePrescriptionStatus(Prescription prescription);
     void addPrescription(Patient patient);
     void updatePrescription(Prescription prescription);
     Receipt loadReceipt(long id);

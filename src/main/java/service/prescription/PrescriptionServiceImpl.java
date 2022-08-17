@@ -1,5 +1,6 @@
 package service.prescription;
 
+import check.Check;
 import entity.Prescription;
 import entity.SimpleDrug;
 import entity.enums.PrescriptionStatus;
@@ -30,6 +31,10 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     public void loadAllPendingPrescription() {
         MyList<Prescription> prescriptions = new MyList<>();
         prescriptions.setItems(prescriptionRepository.loadAllPendingPrescription());
+        if(prescriptions.size() == 0){
+            System.out.println("No prescription for checking");
+            return;
+        }
         System.out.println(prescriptions);
     }
 
@@ -46,6 +51,11 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     @Override
     public void saveDrug(long id, SimpleDrug drug) {
         prescriptionRepository.saveDrug(id, drug);
+    }
+
+    @Override
+    public Prescription load(long id){
+        return prescriptionRepository.load(id);
     }
 
 }

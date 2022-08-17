@@ -1,4 +1,4 @@
-package repository.admin;
+package repository.admin.interfaces;
 
 public interface AdminRepository {
 

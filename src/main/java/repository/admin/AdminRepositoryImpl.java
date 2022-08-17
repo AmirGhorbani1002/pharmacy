@@ -1,14 +1,13 @@
 package repository.admin;
 
 import config.DBConfig;
-import entity.Prescription;
-import entity.SimpleDrug;
+import repository.admin.interfaces.AdminRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AdminRepositoryImpl implements AdminRepository{
+public class AdminRepositoryImpl implements AdminRepository {
     @Override
     public boolean load(String password) {
         String query = """

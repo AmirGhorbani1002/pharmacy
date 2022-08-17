@@ -29,6 +29,8 @@ public class MainMenu {
                 patientMenu.showMenu(patient);
             } else if(Objects.equals(userType, "admin")){
                 adminMenu.showMenu();
+            } else{
+                System.out.println("Just enter patient or admin");
             }
         }
     }

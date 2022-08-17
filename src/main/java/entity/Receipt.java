@@ -15,6 +15,7 @@ public class Receipt {
         this.id = id;
         this.prescriptionId = prescriptionId;
         this.price = price;
+        receiptStatus = ReceiptStatus.UNPAID;
     }
 
     public long getId() {

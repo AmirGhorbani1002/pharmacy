@@ -38,7 +38,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void prescriptionStatus(Prescription prescription) {
+    public void changePrescriptionStatus(Prescription prescription) {
         if (prescription.getStatus() == PrescriptionStatus.ACCEPT) {
             prescription.setStatus(PrescriptionStatus.CONFIRM);
             updatePrescription(prescription);
