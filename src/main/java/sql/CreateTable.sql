@@ -50,3 +50,5 @@ create table if not exists receipt_drugs(
                               price float not null,
                               receipt_id int8 references receipt(id)
 );
+
+-- todo when program run this file automatic run

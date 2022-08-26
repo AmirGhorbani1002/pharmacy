@@ -72,7 +72,7 @@ public class PatientMenu {
                         }
                     }
                 }
-                if(numberOFNotExist == receipt.getDrugs().size()){
+                if (numberOFNotExist == receipt.getDrugs().size()) {
                     System.out.println("Your prescription was canceled");
                     cancelPrescription(prescription, receipt);
                     Check.pressEnter();
@@ -82,7 +82,7 @@ public class PatientMenu {
                 System.out.print("If you want to delete something, Enter the id otherwise Enter 0: ");
                 System.out.print("If you want to delete your receipt, Enter delete: ");
                 String command = scanner.next();
-                if(Objects.equals(command, "delete")){
+                if (Objects.equals(command, "delete")) {
                     cancelPrescription(prescription, receipt);
                     break;
                 }
@@ -92,10 +92,11 @@ public class PatientMenu {
                     break;
                 } else {
                     int index = check.checkIntegerRange(inputId, receipt.getDrugs().size());
-                    if(index == -1){
+                    if (index == -1) {
                         System.out.println("Wrong id");
                         return;
                     }
+                    numberOFNotExist = 0;
                     removeDrugFromReceipt(receipt, index);
                 }
 

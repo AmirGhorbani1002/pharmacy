@@ -20,7 +20,7 @@ public class AdminRepositoryImpl implements AdminRepository {
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e); //todo get throw in service
         }
     }
 

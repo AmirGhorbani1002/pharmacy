@@ -1,6 +1,6 @@
 package entity;
 
-public class SimpleDrug {
+public class SimpleDrug { //todo DrugDTO
 
     private final String name;
     private int count;
